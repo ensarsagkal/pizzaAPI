@@ -4,7 +4,7 @@
 ------------------------------------------------------- */
 const { mongoose } = require('../configs/dbConnection')
 /* ------------------------------------------------------- */
-const passworrEncrypyt=require("../helpers/passwordEncrypt")
+const passwordEncrypyt=require("../helpers/passwordEncrypt")
 
 const UserSchema= new mongoose.Schema(
     {
