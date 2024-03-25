@@ -18,14 +18,14 @@ const UserSchema= new mongoose.Schema(
             type: String,
             trim: true,
             required: true,
-           
+           set:passwordEncrypyt
           },
           email: {
             type: String,
             trim: true,
             required: true,
             unique: true,
-            validate: (email) => email.includes("@") && email.includes("."),
+
           },
           isActive: {
             type: Boolean,
