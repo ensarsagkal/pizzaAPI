@@ -6,6 +6,7 @@
 
 const Order = require('../models/order')
 const Pizza = require('../models/pizza')
+const sendMail=require("../helpers/sendMail")
 
 module.exports = {
 
@@ -58,6 +59,11 @@ module.exports = {
         }
 
         const data = await Order.create(req.body)
+        sendMail(
+            data.email,
+            "Siparişiniz alındı",
+            
+        )
 
         res.status(201).send({
             error: false,
