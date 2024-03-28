@@ -35,7 +35,7 @@ dbConnection()
 
 // Accept JSON:
 app.use(express.json())
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
 
 // Logger:
 app.use(require('./src/middlewares/logger'))
