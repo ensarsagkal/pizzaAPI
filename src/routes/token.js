@@ -7,9 +7,9 @@ const router = require('express').Router()
 // routes/token:
 
 const token = require('../controllers/token')
-
+const {isAdmin}=require("../middlewares/permissions")
 // URL: /tokens
-
+router.use(isAdmin)
 router.route('/')
     .get(token.list)
     .post(token.create)
