@@ -5,6 +5,7 @@
 // Order Controller:
 
 const Order = require('../models/order')
+const Pizza = require('../models/pizza')
 
 module.exports = {
 
@@ -23,11 +24,21 @@ module.exports = {
             `
         */
 
-        const data = await res.getModelList(Order, {}, ['userId', 'pizzaId'])
+        // Manage only self-record.
+        let customFilter = {}
+        if (!req.user.isAdmin) {
+            customFilter = { userId: req.user.id }
+        }
+
+        // const data = await res.getModelList(Order, customFilter, ['userId', 'pizzaId'])
+        const data = await res.getModelList(Order, customFilter, [
+            'userId', 
+            { path: 'pizzaId', select: '-__v', populate: { path: 'toppingIds', select: 'name' } }, // 'pizzaId'
+        ])
 
         res.status(200).send({
             error: false,
-            details: await res.getModelListDetails(Order),
+            details: await res.getModelListDetails(Order, customFilter),
             data
         })
     },
@@ -39,6 +50,12 @@ module.exports = {
             #swagger.tags = ["Orders"]
             #swagger.summary = "Create Order"
         */
+
+        // get price from the pizza:
+        if (!req.body?.price) {
+            const pizzaData = await Pizza.findOne({ _id: req.body.pizzaId })
+            req.body.price = pizzaData.price
+        }
 
         const data = await Order.create(req.body)
 
@@ -54,7 +71,13 @@ module.exports = {
             #swagger.summary = "Get Single Order"
         */
 
-        const data = await Order.findOne({ _id: req.params.id }).populate(['userId', 'pizzaId'])
+        // Manage only self-record.
+        let customFilter = {}
+        if (!req.user.isAdmin) {
+            customFilter = { userId: req.user.id }
+        }
+
+        const data = await Order.findOne({ _id: req.params.id, ...customFilter }).populate(['userId', 'pizzaId'])
 
         res.status(200).send({
             error: false,
