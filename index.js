@@ -46,6 +46,24 @@ app.use(require('./src/middlewares/logger'))
 app.use(require('./src/middlewares/queryHandler'))
 
 /* ------------------------------------------------------- */
+// EMAIL
+const nodemailer= require("nodemailer")
+ //  create test Fake account
+//nodemailer.createTestAccount().then((data)=> console.log(data))
+
+/* 
+{
+  user: 'asjxwssdyx3bwaqk@ethereal.email',
+  pass: 'tp8f9agrT14Dyqs7sr',
+  smtp: { host: 'smtp.ethereal.email', port: 587, secure: false },
+  imap: { host: 'imap.ethereal.email', port: 993, secure: true },
+  pop3: { host: 'pop3.ethereal.email', port: 995, secure: true },
+  web: 'https://ethereal.email'
+*/
+
+/* ------------------------------------------------------- */
+
+
 // Routes:
 
 // routes/index.js:
